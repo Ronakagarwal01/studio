@@ -10,6 +10,7 @@ import {
   Headphones,
   Camera,
   AlertTriangle,
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -34,6 +35,7 @@ const links = [
     { href: '/recommendations', label: 'AI Coach', icon: Sparkles },
     { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
     { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
+    { href: '/quick-resources', label: 'Quick Resources', icon: Zap },
 ];
 
 export function AppSidebar() {
