@@ -38,7 +38,7 @@ const prompt = ai.definePrompt({
 
 Analyze the image and identify the predominant mood.
 
-Based on the detected mood, provide 2-3 simple, positive, and actionable recommendations. The recommendations should be things the user can do right now to either maintain a positive mood or improve a negative one.
+Based on the detected mood, provide 4-5 simple, positive, and actionable recommendations. The recommendations should be things the user can do right now to either maintain a positive mood or improve a negative one.
 
 If no face is detected, respond with a friendly message asking the user to try again with a clear photo of their face. In that case, set the mood to "Unknown".
 
