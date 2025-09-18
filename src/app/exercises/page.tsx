@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Link from 'next/link';
 
 export default function ExercisesPage() {
   return (
@@ -40,12 +41,14 @@ export default function ExercisesPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-sm text-muted-foreground">{exercise.description}</p>
+                <p className="text-sm text-muted-foreground line-clamp-3">{exercise.description}</p>
               </CardContent>
               <CardFooter>
-                <Button className="w-full">
-                  <PlayCircle className="mr-2 h-4 w-4" />
-                  Start Exercise
+                <Button asChild className="w-full">
+                  <Link href={`/exercises/${exercise.id}`}>
+                    <PlayCircle className="mr-2 h-4 w-4" />
+                    Start Exercise
+                  </Link>
                 </Button>
               </CardFooter>
             </Card>

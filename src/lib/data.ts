@@ -1,12 +1,14 @@
-import { Headphones, Wind, Leaf, UserCheck, Users, Phone } from "lucide-react";
+import { Headphones, Wind, Leaf, UserCheck, Users, Phone, Brain, Book, StretchVertical, Gamepad2 } from "lucide-react";
 
 export const relaxationExercises = [
   {
     id: 'deep-breathing',
-    title: 'Deep Breathing',
-    description: 'A 5-minute guided session to calm your mind and body through controlled breathing.',
+    title: 'Breathing Exercises (साँस की कसरत)',
+    description: `Box Breathing (4-4-4-4 method): Inhale for 4s, hold for 4s, exhale for 4s, hold for 4s. Repeat 5-10 rounds. Useful for anxiety and stress.
+Alternate Nostril Breathing (Anulom Vilom): Inhale through one nostril, exhale through the other. Relaxes the nervous system.
+Online recommendations: Guided breathing YouTube videos or mobile apps (Calm, Headspace, Medito).`,
     icon: Wind,
-    duration: '5 min',
+    duration: '5-10 min',
     image: { id: "1", hint: "calm water" }
   },
   {
@@ -16,6 +18,42 @@ export const relaxationExercises = [
     icon: Leaf,
     duration: '10 min',
     image: { id: "2", hint: "forest path" }
+  },
+    {
+    id: 'mindfulness-meditation',
+    title: 'Mindfulness Meditation',
+    description: `Focus only on the present moment (on your breath or environment). Guided meditation apps (Headspace, Insight Timer, Calm). Even 5-10 minutes can relax the mind.
+Recommendation: "Headspace Basics – 10 days meditation program".`,
+    icon: Brain,
+    duration: '5-10 min',
+    image: { id: "4", hint: "serene landscape" }
+  },
+  {
+    id: 'journaling',
+    title: 'Journaling (Likhnā)',
+    description: `Writing down your thoughts and feelings releases stress. "Gratitude Journal" - write down three things you are thankful for in a day.
+Online: Google Docs or journaling apps (Daylio, Journey).`,
+    icon: Book,
+    duration: '15 min',
+    image: { id: "5", hint: "writing desk" }
+  },
+  {
+    id: 'light-physical-exercise',
+    title: 'Light Physical Exercise',
+    description: `Stretching, Yoga poses (child pose, cat-cow, forward bend). A short walk (if possible).
+Online yoga classes or YouTube tutorials (Yoga with Adriene).`,
+    icon: StretchVertical,
+    duration: '15 min',
+    image: { id: "6", hint: "yoga sunrise" }
+  },
+    {
+    id: 'positive-engagement',
+    title: 'Distraction & Positive Engagement',
+    description: `Short casual games (like puzzle or coloring apps). Creative activities: drawing, digital painting.
+Online: Colorfy (coloring app), Elevate (mind games).`,
+    icon: Gamepad2,
+    duration: '10-15 min',
+    image: { id: "7", hint: "puzzle pieces" }
   },
   {
     id: 'ambient-sounds',
@@ -30,7 +68,7 @@ export const relaxationExercises = [
 export const resourceCategories = {
     therapists: "Therapists",
     supportGroups: "Support Groups",
-    hotlines: "Other Helplines",
+    hotlines: "Emergency Helplines",
 };
 
 export const resources = {

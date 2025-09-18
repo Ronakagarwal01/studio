@@ -17,6 +17,30 @@
       "description": "Raindrops on a window pane",
       "imageUrl": "https://picsum.photos/seed/3/600/400",
       "imageHint": "rain window"
+    },
+    {
+      "id": "4",
+      "description": "Serene mountain landscape at dawn",
+      "imageUrl": "https://picsum.photos/seed/4/600/400",
+      "imageHint": "serene landscape"
+    },
+    {
+      "id": "5",
+      "description": "A person writing in a journal on a rustic wooden desk",
+      "imageUrl": "https://picsum.photos/seed/5/600/400",
+      "imageHint": "writing desk"
+    },
+    {
+      "id": "6",
+      "description": "A person doing yoga at sunrise",
+      "imageUrl": "https://picsum.photos/seed/6/600/400",
+      "imageHint": "yoga sunrise"
+    },
+    {
+      "id": "7",
+      "description": "Colorful puzzle pieces on a table",
+      "imageUrl": "https://picsum.photos/seed/7/600/400",
+      "imageHint": "puzzle pieces"
     }
   ]
 }
