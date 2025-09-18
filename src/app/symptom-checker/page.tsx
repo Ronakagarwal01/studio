@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { symptomCheckerQuestions } from '@/lib/data';
 import { ArrowLeft, RefreshCw, TriangleAlert } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export default function SymptomCheckerPage() {
   const [step, setStep] = useState(0);
@@ -67,14 +68,16 @@ export default function SymptomCheckerPage() {
               <RadioGroup onValueChange={handleSelect} value={currentQuestion.options[answers[step]]} className="space-y-2 flex flex-col items-center">
                 {currentQuestion.options.map((option, index) => (
                   <div key={index} className='w-full max-w-sm'>
-                    <Button
-                      variant="outline"
-                      className="w-full h-12 justify-start px-4 text-left"
-                      onClick={() => handleSelect(option)}
+                     <Label
+                      htmlFor={`option-${index}`}
+                      className={cn(
+                        buttonVariants({ variant: 'outline' }),
+                        'w-full h-12 justify-start px-4 text-left font-normal text-base cursor-pointer'
+                      )}
                     >
                       <RadioGroupItem value={option} id={`option-${index}`} className="mr-3"/>
-                      <Label htmlFor={`option-${index}`} className="cursor-pointer text-base font-normal">{option}</Label>
-                    </Button>
+                      {option}
+                    </Label>
                   </div>
                 ))}
               </RadioGroup>
