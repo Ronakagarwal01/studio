@@ -1,14 +1,23 @@
+'use client';
+
 import { relaxationExercises } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock } from 'lucide-react';
+import { Clock, ArrowLeft, Volume2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { generateAudioFromText } from '@/lib/actions';
+import { useToast } from '@/hooks/use-toast';
+
 
 export default function ExerciseDetailsPage({ params }: { params: { slug: string } }) {
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
+  const { toast } = useToast();
+
   const exercise = relaxationExercises.find((ex) => ex.id === params.slug);
 
   if (!exercise) {
@@ -16,6 +25,24 @@ export default function ExerciseDetailsPage({ params }: { params: { slug: string
   }
 
   const image = PlaceHolderImages.find(img => img.id === exercise.image.id);
+
+  const handleGenerateAudio = async () => {
+    setIsGeneratingAudio(true);
+    setAudioUrl(null);
+    try {
+      const result = await generateAudioFromText({ text: exercise.description });
+      setAudioUrl(result.audioDataUri);
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: 'Error generating audio',
+        description: 'Failed to generate audio for this exercise. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsGeneratingAudio(false);
+    }
+  };
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
@@ -55,8 +82,26 @@ export default function ExerciseDetailsPage({ params }: { params: { slug: string
             <CardHeader>
                 <CardTitle>About this exercise</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-4">
                 <p className="whitespace-pre-wrap leading-relaxed">{exercise.description}</p>
+                 <Button onClick={handleGenerateAudio} disabled={isGeneratingAudio} variant="outline">
+                  {isGeneratingAudio ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Generating Audio...
+                    </>
+                  ) : (
+                    <>
+                      <Volume2 className="mr-2 h-4 w-4" />
+                      Listen to this exercise
+                    </>
+                  )}
+                </Button>
+                {audioUrl && (
+                  <audio controls src={audioUrl} className="w-full">
+                    Your browser does not support the audio element.
+                  </audio>
+                )}
             </CardContent>
         </Card>
     </div>
