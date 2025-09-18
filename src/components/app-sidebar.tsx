@@ -9,6 +9,7 @@ import {
   ClipboardCheck,
   Headphones,
   Camera,
+  AlertTriangle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -32,6 +33,7 @@ const links = [
     { href: '/symptom-checker', label: 'Symptom Checker', icon: BrainCircuit },
     { href: '/recommendations', label: 'AI Coach', icon: Sparkles },
     { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
+    { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
 ];
 
 export function AppSidebar() {

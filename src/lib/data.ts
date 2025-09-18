@@ -30,7 +30,7 @@ export const relaxationExercises = [
 export const resourceCategories = {
     therapists: "Therapists",
     supportGroups: "Support Groups",
-    hotlines: "Emergency Helplines",
+    hotlines: "Other Helplines",
 };
 
 export const resources = {
@@ -65,26 +65,50 @@ export const resources = {
   hotlines: [
       {
           id: 4,
-          name: "Vandrevala Foundation Helpline",
-          specialty: "24/7 free and confidential support for mental health.",
+          name: "Tele-MANAS",
+          specialty: "24/7 tele-counselling, crisis intervention, mental health awareness, and referrals to professionals.",
           location: "India",
-          contact: "Call 9999666555",
+          contact: "14416 / 1800-89-14416",
           icon: Phone
       },
       {
           id: 5,
-          name: "KIRAN Mental Health Helpline",
-          specialty: "A national helpline by the Government of India.",
+          name: "KIRAN",
+          specialty: "Mental health rehabilitation helpline (now integrated into Tele-MANAS).",
           location: "India",
-          contact: "Call 1800-599-0019",
+          contact: "1800-599-0019",
           icon: Phone
       },
       {
           id: 6,
+          name: "National Free Drug De-addiction Helpline",
+          specialty: "Support and rehabilitation for drug addiction.",
+          location: "India",
+          contact: "1800-11-0031",
+          icon: Phone
+      },
+      {
+          id: 7,
+          name: "Tobacco Quit Helpline",
+          specialty: "Assistance with quitting tobacco.",
+          location: "India",
+          contact: "1800-11-2356",
+          icon: Phone
+      },
+      {
+          id: 8,
+          name: "Vandrevala Foundation Helpline",
+          specialty: "24/7 free and confidential support for mental health.",
+          location: "India",
+          contact: "9999666555",
+          icon: Phone
+      },
+      {
+          id: 9,
           name: "iCALL Psychosocial Helpline",
           specialty: "Provides counselling by phone from TISS.",
           location: "India",
-          contact: "Call 9152987821",
+          contact: "9152987821",
           icon: Phone
       }
   ]
