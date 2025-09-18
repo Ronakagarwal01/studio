@@ -32,11 +32,11 @@ export function MoodChart() {
     });
   }, [moodData]);
   
+  const hasData = useMemo(() => moodData.length > 0, [moodData]);
+  
   if (isLoading) {
     return <Skeleton className="h-[350px] w-full" />;
   }
-  
-  const hasData = useMemo(() => moodData.length > 0, [moodData]);
 
   if (!hasData) {
       return (
