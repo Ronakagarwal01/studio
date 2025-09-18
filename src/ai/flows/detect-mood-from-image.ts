@@ -21,7 +21,7 @@ const DetectMoodFromImageInputSchema = z.object({
 export type DetectMoodFromImageInput = z.infer<typeof DetectMoodFromImageInputSchema>;
 
 const DetectMoodFromImageOutputSchema = z.object({
-  mood: z.string().describe("The detected mood of the person in the photo (e.g., Happy, Sad, Anxious, Calm, Energetic)."),
+  mood: z.string().describe("The detected mood of the person in the photo (e.g., Happy, Sad, Anxious, Neutral, Calm, Energetic)."),
   recommendations: z.string().describe("A few short, actionable recommendations based on the detected mood. For example, if the mood is sad, suggest a short breathing exercise or listening to an uplifting song."),
 });
 export type DetectMoodFromImageOutput = z.infer<typeof DetectMoodFromImageOutputSchema>;
@@ -36,11 +36,11 @@ const prompt = ai.definePrompt({
   output: {schema: DetectMoodFromImageOutputSchema},
   prompt: `You are a friendly and empathetic AI wellness assistant. Your task is to analyze the provided image to determine the person's mood based on their facial expression.
 
-Analyze the image and identify the predominant mood.
+Carefully analyze the facial features in the image to identify the predominant mood. Be specific. Look for cues that indicate happiness (smile), sadness (frown), nervousness/anxiety, or a neutral expression.
 
 Based on the detected mood, provide 4-5 simple, positive, and actionable recommendations. The recommendations should be things the user can do right now to either maintain a positive mood or improve a negative one.
 
-If no face is detected, respond with a friendly message asking the user to try again with a clear photo of their face. In that case, set the mood to "Unknown".
+If no face is detected or the face is unclear, respond with a friendly message asking the user to try again with a clear photo of their face. In that case, set the mood to "Unknown" and provide a recommendation to try again.
 
 Photo: {{media url=photoDataUri}}`,
 });
