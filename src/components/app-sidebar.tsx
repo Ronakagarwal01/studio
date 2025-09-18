@@ -8,6 +8,7 @@ import {
   Sparkles,
   ClipboardCheck,
   Headphones,
+  Camera,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -30,6 +31,7 @@ const links = [
     { href: '/resources', label: 'Resources', icon: ClipboardCheck },
     { href: '/symptom-checker', label: 'Symptom Checker', icon: BrainCircuit },
     { href: '/recommendations', label: 'AI Coach', icon: Sparkles },
+    { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
 ];
 
 export function AppSidebar() {
