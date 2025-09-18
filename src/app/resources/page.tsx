@@ -44,7 +44,9 @@ export default function ResourcesPage() {
                     <span className="text-sm text-muted-foreground">{item.location}</span>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="outline" className="w-full">{item.contact}</Button>
+                    <Button asChild variant="outline" className="w-full">
+                        <a href={`tel:${item.contact.replace(/[^0-9]/g, '')}`}>{item.contact}</a>
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}

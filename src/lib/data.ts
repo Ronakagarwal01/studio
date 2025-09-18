@@ -30,7 +30,7 @@ export const relaxationExercises = [
 export const resourceCategories = {
     therapists: "Therapists",
     supportGroups: "Support Groups",
-    hotlines: "Hotlines",
+    hotlines: "Emergency Helplines",
 };
 
 export const resources = {
@@ -65,10 +65,26 @@ export const resources = {
   hotlines: [
       {
           id: 4,
-          name: "National Suicide Prevention Lifeline",
-          specialty: "24/7 free and confidential support.",
-          location: "Nationwide",
-          contact: "Call 988",
+          name: "Vandrevala Foundation Helpline",
+          specialty: "24/7 free and confidential support for mental health.",
+          location: "India",
+          contact: "Call 9999666555",
+          icon: Phone
+      },
+      {
+          id: 5,
+          name: "KIRAN Mental Health Helpline",
+          specialty: "A national helpline by the Government of India.",
+          location: "India",
+          contact: "Call 1800-599-0019",
+          icon: Phone
+      },
+      {
+          id: 6,
+          name: "iCALL Psychosocial Helpline",
+          specialty: "Provides counselling by phone from TISS.",
+          location: "India",
+          contact: "Call 9152987821",
           icon: Phone
       }
   ]
