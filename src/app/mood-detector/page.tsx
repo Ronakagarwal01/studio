@@ -56,6 +56,13 @@ export default function MoodDetectorPage() {
     }
   }, [toast]);
 
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+    }
+  }
+
   const captureAndAnalyze = async () => {
     if (!videoRef.current || !canvasRef.current) return;
     setIsLoading(true);
@@ -80,6 +87,8 @@ export default function MoodDetectorPage() {
                 description: 'Could not analyze the image. Please try again.',
                 variant: 'destructive',
             });
+        } finally {
+            stopCamera();
         }
     }
 
