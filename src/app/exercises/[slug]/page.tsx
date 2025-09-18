@@ -14,11 +14,10 @@ import { generateAudioFromText } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 
 
-export default function ExerciseDetailsPage({ params }: { params: { slug: string } }) {
+export default function ExerciseDetailsPage({ params: { slug } }: { params: { slug: string } }) {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const { toast } = useToast();
-  const { slug } = params;
 
   const exercise = relaxationExercises.find((ex) => ex.id === slug);
 
