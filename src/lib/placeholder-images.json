@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "1",
+      "description": "Calm water ripples",
+      "imageUrl": "https://picsum.photos/seed/1/600/400",
+      "imageHint": "calm water"
+    },
+    {
+      "id": "2",
+      "description": "Sunlight filtering through a forest path",
+      "imageUrl": "https://picsum.photos/seed/2/600/400",
+      "imageHint": "forest path"
+    },
+    {
+      "id": "3",
+      "description": "Raindrops on a window pane",
+      "imageUrl": "https://picsum.photos/seed/3/600/400",
+      "imageHint": "rain window"
+    }
+  ]
 }
