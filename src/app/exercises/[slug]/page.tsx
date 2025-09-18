@@ -1,3 +1,4 @@
+
 'use client';
 
 import { relaxationExercises } from '@/lib/data';
@@ -17,8 +18,9 @@ export default function ExerciseDetailsPage({ params }: { params: { slug: string
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const { toast } = useToast();
+  const { slug } = params;
 
-  const exercise = relaxationExercises.find((ex) => ex.id === params.slug);
+  const exercise = relaxationExercises.find((ex) => ex.id === slug);
 
   if (!exercise) {
     notFound();
