@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Leaf, Wind, Heart } from 'lucide-react';
+import { Leaf, Wind, Heart, Music } from 'lucide-react';
 
 const selfCareTips = [
   'Stay hydrated - drink water regularly',
@@ -22,6 +22,13 @@ const mindfulnessTips = [
     'Pay full attention to a daily activity, like washing dishes.',
     'Go for a short walk and notice your surroundings.',
 ]
+
+const soundTherapyTips = [
+    'Nature sounds: rain, ocean waves, forest sounds.',
+    'Instrumental music: piano, flute, or classical music.',
+    'Binaural beats: can help with focus or relaxation.',
+    'White noise: can help block out distracting sounds.',
+];
 
 export default function QuickResourcesPage() {
   return (
@@ -77,6 +84,23 @@ export default function QuickResourcesPage() {
             <CardContent>
                 <ul className="space-y-3 list-disc list-inside text-muted-foreground">
                     {mindfulnessTips.map((tip, index) => (
+                        <li key={index}><span className="text-foreground">{tip}</span></li>
+                    ))}
+                </ul>
+            </CardContent>
+        </Card>
+        
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                    <Music className="w-6 h-6 text-primary"/>
+                    <span>Sound Therapy</span>
+                </CardTitle>
+                <CardDescription>Use sound to relax and find focus.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ul className="space-y-3 list-disc list-inside text-muted-foreground">
+                    {soundTherapyTips.map((tip, index) => (
                         <li key={index}><span className="text-foreground">{tip}</span></li>
                     ))}
                 </ul>
