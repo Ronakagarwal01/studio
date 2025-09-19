@@ -77,7 +77,7 @@ export default function SymptomCheckerPage() {
                 </Button>
               )}
               
-              <RadioGroup onValueChange={handleSelect} value={currentQuestion.options[answers[step]]} className="space-y-3 pt-4">
+              <RadioGroup onValueChange={handleSelect} key={step} className="space-y-3 pt-4">
                 {currentQuestion.options.map((option, index) => (
                   <div key={index} className='w-full'>
                      <Label
