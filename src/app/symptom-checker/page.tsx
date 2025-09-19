@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -13,33 +13,39 @@ import { cn } from '@/lib/utils';
 export default function SymptomCheckerPage() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
-  const [score, setScore] = useState<number | null>(null);
+  
+  const totalSteps = symptomCheckerQuestions.length;
+  const isCompleted = step >= totalSteps;
 
   const currentQuestion = symptomCheckerQuestions[step];
-  const totalSteps = symptomCheckerQuestions.length;
-
-  const handleNext = (answerIndex: number) => {
-    const newAnswers = [...answers.slice(0, step), answerIndex];
-    setAnswers(newAnswers);
-    if (step < totalSteps - 1) {
-      setStep(step + 1);
-    } else {
-      const totalScore = newAnswers.reduce((sum, val) => sum + val, 0);
-      setScore(totalScore);
-      setStep(step + 1);
-    }
-  };
+  
+  const score = useMemo(() => {
+    if (!isCompleted) return null;
+    return answers.reduce((sum, val) => sum + val, 0);
+  }, [isCompleted, answers]);
 
   const handleSelect = (value: string) => {
     const answerIndex = currentQuestion.options.indexOf(value);
-    handleNext(answerIndex);
+    const newAnswers = [...answers.slice(0, step), answerIndex];
+    setAnswers(newAnswers);
+    setTimeout(() => setStep(step + 1), 200); // Add a small delay for better UX
   };
   
   const handleRestart = () => {
     setStep(0);
     setAnswers([]);
-    setScore(null);
   };
+
+  const getScoreInterpretation = (finalScore: number | null) => {
+    if (finalScore === null) return '';
+    if (finalScore <= 4) return { level: 'Minimal', message: 'Your score suggests minimal to no depression symptoms. It\'s still a good practice to monitor your mood.' };
+    if (finalScore <= 9) return { level: 'Mild', message: 'Your responses suggest you may be experiencing mild depression. Consider discussing your feelings with someone you trust or a professional.' };
+    if (finalScore <= 14) return { level: 'Moderate', message: 'Your score indicates moderate depression symptoms. It is highly recommended to consult with a mental health professional.' };
+    if (finalScore <= 19) return { level: 'Moderately Severe', message: 'Your responses suggest moderately severe depression. Professional help is very important. Please seek support.' };
+    return { level: 'Severe', message: 'Your score indicates severe depression. It is crucial to seek professional help immediately.' };
+  }
+
+  const interpretation = getScoreInterpretation(score);
 
   const progress = ((step) / totalSteps) * 100;
 
@@ -47,36 +53,42 @@ export default function SymptomCheckerPage() {
     <div className="space-y-8 max-w-2xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-center">Symptom Checker</h1>
-        <p className="text-muted-foreground text-center">An interactive tool to help identify potential mental health concerns.</p>
+        <p className="text-muted-foreground text-center">Over the last 2 weeks, how often have you been bothered by any of the following problems?</p>
       </div>
 
       <Card>
         <CardHeader>
-          <div className="flex items-center gap-4">
-            {step > 0 && (
-                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setStep(step - 1)}>
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-            )}
             <Progress value={progress} className="w-full" />
-          </div>
         </CardHeader>
-        <CardContent className="p-8">
-          {step < totalSteps ? (
+        <CardContent className="p-6 sm:p-8">
+          {!isCompleted ? (
             <div className="space-y-6">
-              <p className="text-lg font-semibold text-center">{currentQuestion.question}</p>
-              <RadioGroup onValueChange={handleSelect} value={currentQuestion.options[answers[step]]} className="space-y-2 flex flex-col items-center">
+              <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-lg">
+                    {step + 1}
+                  </div>
+                  <p className="text-lg font-semibold flex-1 mt-1">{currentQuestion.question}</p>
+              </div>
+
+              {step > 0 && (
+                <Button variant="ghost" size="sm" onClick={() => setStep(step - 1)} className="text-muted-foreground">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back
+                </Button>
+              )}
+              
+              <RadioGroup onValueChange={handleSelect} value={currentQuestion.options[answers[step]]} className="space-y-3 pt-4">
                 {currentQuestion.options.map((option, index) => (
-                  <div key={index} className='w-full max-w-sm'>
+                  <div key={index} className='w-full'>
                      <Label
                       htmlFor={`option-${index}`}
                       className={cn(
-                        buttonVariants({ variant: 'outline' }),
-                        'w-full h-12 justify-start px-4 text-left font-normal text-base cursor-pointer'
+                        buttonVariants({ variant: 'outline', size: 'lg' }),
+                        'w-full h-auto justify-start px-4 py-3 text-left font-normal text-base cursor-pointer has-[[data-state=checked]]:bg-primary/10 has-[[data-state=checked]]:border-primary'
                       )}
                     >
-                      <RadioGroupItem value={option} id={`option-${index}`} className="mr-3"/>
-                      {option}
+                      <RadioGroupItem value={option} id={`option-${index}`} className="mr-4"/>
+                      <span>{option} <span className="text-muted-foreground text-xs">({index} point{index !== 1 && 's'})</span></span>
                     </Label>
                   </div>
                 ))}
@@ -84,12 +96,16 @@ export default function SymptomCheckerPage() {
             </div>
           ) : (
             <div className="text-center space-y-4">
-              <h2 className="text-2xl font-bold">Your Results</h2>
-              {score !== null && score > 4 ? (
-                  <p>Your responses suggest you might be experiencing significant emotional distress. It could be beneficial to speak with a mental health professional.</p>
-              ): (
-                  <p>Your responses indicate you may be experiencing some mild emotional distress. Monitoring your feelings and practicing self-care is a good step.</p>
+              <h2 className="text-2xl font-bold">Your PHQ-9 Results</h2>
+              <p className="text-muted-foreground">Your total score is:</p>
+              <p className="text-6xl font-bold text-primary">{score}</p>
+              {interpretation && (
+                <div className="p-4 bg-muted/50 rounded-lg">
+                    <p className="font-bold text-lg">{interpretation.level} Depression</p>
+                    <p>{interpretation.message}</p>
+                </div>
               )}
+              
               <Card className="bg-destructive/10 border-destructive/50 p-4 mt-6">
                   <div className="flex items-center justify-center gap-3">
                     <TriangleAlert className="h-6 w-6 text-destructive"/>
