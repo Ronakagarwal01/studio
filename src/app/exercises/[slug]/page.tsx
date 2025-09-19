@@ -2,7 +2,7 @@
 'use client';
 
 import { relaxationExercises } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock, ArrowLeft, Volume2, Loader2 } from 'lucide-react';
 import Image from 'next/image';
@@ -14,11 +14,12 @@ import { generateAudioFromText } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 
 
-export default function ExerciseDetailsPage({ params }: { params: { slug: string } }) {
+export default function ExerciseDetailsPage() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const { toast } = useToast();
-  const { slug } = params;
+  const params = useParams();
+  const slug = params.slug as string;
 
   const exercise = relaxationExercises.find((ex) => ex.id === slug);
 
