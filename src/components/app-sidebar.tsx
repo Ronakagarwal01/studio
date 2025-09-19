@@ -32,7 +32,7 @@ const links = [
     { href: '/journal', label: 'Journal', icon: BookHeart },
     { href: '/exercises', label: 'Exercises', icon: Headphones },
     { href: '/resources', label: 'Resources', icon: ClipboardCheck },
-    { href: '/symptom-checker', label: 'Symptom Checker', icon: BrainCircuit },
+    { href: '/symptom-checker', label: 'Self Checkup', icon: BrainCircuit },
     { href: '/recommendations', label: 'AI Coach', icon: Sparkles },
     { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
     { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
