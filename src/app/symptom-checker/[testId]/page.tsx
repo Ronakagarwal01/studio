@@ -1,34 +1,35 @@
 
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { symptomCheckers } from '@/lib/data';
-import { ArrowLeft, RefreshCw, TriangleAlert } from 'lucide-react';
+import { ArrowLeft, RefreshCw, TriangleAlert, Sparkles, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { notFound, useParams } from 'next/navigation';
+import { generateTestInterpretation } from '@/lib/actions';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 export default function SymptomTestPage() {
   const params = useParams();
   const testId = params.testId as string;
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [aiRecommendation, setAiRecommendation] = useState('');
 
-  // Type assertion to allow string indexing
   const testData = (symptomCheckers as any)[testId];
 
   if (!testData) {
     return notFound();
   }
 
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<number[]>([]);
-  
   const totalSteps = testData.questions.length;
   const isCompleted = step >= totalSteps;
-
   const currentQuestion = testData.questions[step];
   
   const score = useMemo(() => {
@@ -36,19 +37,45 @@ export default function SymptomTestPage() {
     return answers.reduce((sum, val) => sum + val, 0);
   }, [isCompleted, answers]);
 
+  const interpretation = useMemo(() => {
+    if (score === null) return null;
+    return testData.getScoreInterpretation(score);
+  }, [score, testData]);
+
+  useEffect(() => {
+    if (isCompleted && score !== null && interpretation) {
+      const getAIRecommendation = async () => {
+        setIsGenerating(true);
+        setAiRecommendation('');
+        try {
+          const result = await generateTestInterpretation({
+            testTitle: testData.title,
+            score: score,
+            interpretation: interpretation,
+          });
+          setAiRecommendation(result.recommendation);
+        } catch (error) {
+          console.error("Failed to get AI recommendation", error);
+        } finally {
+          setIsGenerating(false);
+        }
+      };
+      getAIRecommendation();
+    }
+  }, [isCompleted, score, interpretation, testData.title]);
+
   const handleSelect = (value: string) => {
     const answerIndex = currentQuestion.options.indexOf(value);
     const newAnswers = [...answers.slice(0, step), answerIndex];
     setAnswers(newAnswers);
-    setTimeout(() => setStep(step + 1), 200); // Add a small delay for better UX
+    setTimeout(() => setStep(step + 1), 200);
   };
   
   const handleRestart = () => {
     setStep(0);
     setAnswers([]);
+    setAiRecommendation('');
   };
-
-  const interpretation = testData.getScoreInterpretation(score);
 
   const progress = ((step) / totalSteps) * 100;
 
@@ -104,7 +131,7 @@ export default function SymptomTestPage() {
               </RadioGroup>
             </div>
           ) : (
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-6">
               <h2 className="text-2xl font-bold">Your Results</h2>
               <p className="text-muted-foreground">Your total score is:</p>
               <p className="text-6xl font-bold text-primary">{score}</p>
@@ -115,7 +142,24 @@ export default function SymptomTestPage() {
                 </div>
               )}
               
-              <Card className="bg-destructive/10 border-destructive/50 p-4 mt-6">
+              {isGenerating && (
+                <div className="flex justify-center items-center gap-2 text-muted-foreground pt-4">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <span>Aapke liye ek friendly salah soch rahe hain...</span>
+                </div>
+              )}
+
+              {aiRecommendation && (
+                <Alert className="text-left">
+                  <Sparkles className="h-4 w-4" />
+                  <AlertTitle className='font-bold'>Ek Chhoti Si Salah</AlertTitle>
+                  <AlertDescription className="whitespace-pre-wrap mt-2">
+                    {aiRecommendation}
+                  </AlertDescription>
+                </Alert>
+              )}
+              
+              <Card className="bg-destructive/10 border-destructive/50 p-4">
                   <div className="flex items-center justify-center gap-3">
                     <TriangleAlert className="h-6 w-6 text-destructive"/>
                     <CardTitle className="text-destructive">Disclaimer</CardTitle>

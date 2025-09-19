@@ -8,3 +8,4 @@ import '@/ai/flows/detect-mood-from-image.ts';
 import '@/ai/flows/generate-audio-from-text.ts';
 import '@/ai/flows/recommend-indian-music.ts';
 import '@/ai/flows/get-spotify-track.ts';
+import '@/ai/flows/generate-test-interpretation.ts';
