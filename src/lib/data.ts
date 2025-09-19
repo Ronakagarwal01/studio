@@ -152,7 +152,7 @@ export const resources = {
   ]
 };
 
-export const symptomCheckerQuestions = [
+const phq9Questions = [
   {
     question: 'Little interest or pleasure in doing things',
     options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
@@ -190,3 +190,60 @@ export const symptomCheckerQuestions = [
     options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
   },
 ];
+
+const gad7Questions = [
+    {
+      question: 'Feeling nervous, anxious, or on edge',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Not being able to stop or control worrying',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Worrying too much about different things',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Trouble relaxing',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Being so restless that it\'s hard to sit still',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Becoming easily annoyed or irritable',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+    {
+      question: 'Feeling afraid as if something awful might happen',
+      options: ['Not at all', 'Several days', 'More than half the days', 'Nearly every day'],
+    },
+];
+
+export const symptomCheckers = {
+    'phq-9': {
+        title: 'Depression Test (PHQ-9)',
+        prompt: 'Over the last 2 weeks, how often have you been bothered by any of the following problems?',
+        questions: phq9Questions,
+        getScoreInterpretation: (finalScore: number) => {
+            if (finalScore <= 4) return { level: 'Minimal', message: 'Your score suggests minimal to no depression symptoms. It\'s still a good practice to monitor your mood.' };
+            if (finalScore <= 9) return { level: 'Mild', message: 'Your responses suggest you may be experiencing mild depression. Consider discussing your feelings with someone you trust or a professional.' };
+            if (finalScore <= 14) return { level: 'Moderate', message: 'Your score indicates moderate depression symptoms. It is highly recommended to consult with a mental health professional.' };
+            if (finalScore <= 19) return { level: 'Moderately Severe', message: 'Your responses suggest moderately severe depression. Professional help is very important. Please seek support.' };
+            return { level: 'Severe', message: 'Your score indicates severe depression. It is crucial to seek professional help immediately.' };
+        }
+    },
+    'gad-7': {
+        title: 'Anxiety Test (GAD-7)',
+        prompt: 'Over the last 2 weeks, how often have you been bothered by any of the following problems?',
+        questions: gad7Questions,
+        getScoreInterpretation: (finalScore: number) => {
+            if (finalScore <= 4) return { level: 'Minimal Anxiety', message: 'Your score suggests minimal to no anxiety. Continue to practice self-care and monitor your feelings.' };
+            if (finalScore <= 9) return { level: 'Mild Anxiety', message: 'Your responses suggest you may be experiencing mild anxiety. Consider incorporating relaxation techniques into your routine and talking to someone you trust.' };
+            if (finalScore <= 14) return { level: 'Moderate Anxiety', message: 'Your score indicates moderate anxiety. It is highly recommended to consult with a mental health professional for further evaluation and support.' };
+            return { level: 'Severe Anxiety', message: 'Your score indicates severe anxiety. It is crucial to seek professional help immediately to manage your symptoms.' };
+        }
+    }
+}
