@@ -10,9 +10,11 @@ import { symptomCheckers } from '@/lib/data';
 import { ArrowLeft, RefreshCw, TriangleAlert } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
-export default function SymptomTestPage({ params: { testId } }: { params: { testId: string } }) {
+export default function SymptomTestPage() {
+  const params = useParams();
+  const testId = params.testId as string;
 
   // Type assertion to allow string indexing
   const testData = (symptomCheckers as any)[testId];
