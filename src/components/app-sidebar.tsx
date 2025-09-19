@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -36,6 +37,7 @@ const links = [
     { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
     { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
     { href: '/quick-resources', label: 'Quick Resources', icon: Zap },
+    { href: '/sound-therapy', label: 'Sound Therapy', icon: Headphones },
 ];
 
 export function AppSidebar() {
