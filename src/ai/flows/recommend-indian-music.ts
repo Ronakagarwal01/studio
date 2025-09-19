@@ -20,8 +20,13 @@ const RecommendIndianMusicInputSchema = z.object({
 });
 export type RecommendIndianMusicInput = z.infer<typeof RecommendIndianMusicInputSchema>;
 
+const SongRecommendationSchema = z.object({
+    title: z.string().describe("The title of the song."),
+    artist: z.string().describe("The artist(s) of the song."),
+});
+
 const RecommendIndianMusicOutputSchema = z.object({
-  recommendations: z.array(z.string()).describe("A list of 5-7 recommended Indian songs (title and artist) appropriate for relaxation and mental wellness."),
+  recommendations: z.array(SongRecommendationSchema).describe("A list of 5-7 recommended Indian songs appropriate for relaxation and mental wellness."),
 });
 export type RecommendIndianMusicOutput = z.infer<typeof RecommendIndianMusicOutputSchema>;
 
@@ -35,7 +40,7 @@ const prompt = ai.definePrompt({
   output: {schema: RecommendIndianMusicOutputSchema},
   prompt: `You are an AI music expert specializing in Indian music for mental wellness and relaxation.
 
-Your task is to analyze the provided image. If a face is detected, you must recommend a list of 5-7 relaxing and calming Indian songs. The songs can be instrumental, classical, or modern lo-fi, but they must be from Indian artists or cinema.
+Your task is to analyze the provided image. If a face is detected, you must recommend a list of 5 relaxing and calming Indian songs. The songs can be instrumental, classical, or modern lo-fi, but they must be from Indian artists or cinema.
 
 For each song, provide the title and the artist.
 

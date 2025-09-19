@@ -6,6 +6,8 @@ import { generateTailoredJournalPrompts } from '@/ai/flows/generate-tailored-jou
 import { detectMoodFromImage } from '@/ai/flows/detect-mood-from-image';
 import { generateAudioFromText } from '@/ai/flows/generate-audio-from-text';
 import { recommendIndianMusic, RecommendIndianMusicOutput } from '@/ai/flows/recommend-indian-music';
+import { getSpotifyTrack } from '@/ai/flows/get-spotify-track';
 
-export { providePersonalizedRecommendations, generateTailoredJournalPrompts, detectMoodFromImage, generateAudioFromText, recommendIndianMusic };
+
+export { providePersonalizedRecommendations, generateTailoredJournalPrompts, detectMoodFromImage, generateAudioFromText, recommendIndianMusic, getSpotifyTrack };
 export type { RecommendIndianMusicOutput };

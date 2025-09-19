@@ -7,12 +7,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, Camera, Sparkles, Wand, Search, Music } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { recommendIndianMusic, RecommendIndianMusicOutput } from '@/lib/actions';
+import { recommendIndianMusic, RecommendIndianMusicOutput, getSpotifyTrack } from '@/lib/actions';
 import { Input } from '@/components/ui/input';
+
+interface SpotifyTrack {
+  uri: string;
+  name: string;
+  artist: string;
+}
 
 export default function SoundTherapyPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<RecommendIndianMusicOutput | null>(null);
+  const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,10 +71,17 @@ export default function SoundTherapyPage() {
     }
   }
 
+  const fetchTracks = async (recommendations: { title: string; artist: string }[]) => {
+    const trackPromises = recommendations.map(song => getSpotifyTrack({ title: song.title, artist: song.artist }));
+    const trackResults = await Promise.all(trackPromises);
+    setTracks(trackResults.filter(track => track.uri).map(track => ({ uri: track.uri!, name: track.name!, artist: track.artist! })));
+  };
+
   const captureAndAnalyze = async () => {
     if (!videoRef.current || !canvasRef.current) return;
     setIsLoading(true);
     setResult(null);
+    setTracks([]);
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -81,6 +95,9 @@ export default function SoundTherapyPage() {
         try {
             const analysisResult = await recommendIndianMusic({ photoDataUri });
             setResult(analysisResult);
+            if (analysisResult.recommendations && analysisResult.recommendations.length > 0) {
+              await fetchTracks(analysisResult.recommendations);
+            }
         } catch (error) {
             console.error('Error analyzing image:', error);
             toast({
@@ -166,26 +183,27 @@ export default function SoundTherapyPage() {
         </Card>
       </div>
       
-      {result && result.recommendations && (
+      {tracks.length > 0 && (
         <Card>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Music className="w-6 h-6 text-primary"/>
                     <span>Your Recommended Playlist</span>
                 </CardTitle>
+                 <CardDescription>Based on your analysis, here are some relaxing Indian songs. Click to play.</CardDescription>
             </CardHeader>
-            <CardContent>
-                <Alert>
-                    <Sparkles className="h-4 w-4" />
-                    <AlertTitle>Based on your analysis, here are some relaxing Indian songs</AlertTitle>
-                    <AlertDescription className="whitespace-pre-wrap mt-2">
-                        <ul className="list-disc pl-5 space-y-1">
-                            {result.recommendations.map((song, index) => (
-                                <li key={index}>{song}</li>
-                            ))}
-                        </ul>
-                    </AlertDescription>
-                </Alert>
+            <CardContent className="grid gap-4 md:grid-cols-2">
+                {tracks.map((track) => (
+                    <iframe
+                        key={track.uri}
+                        src={`https://open.spotify.com/embed/track/${track.uri.split(':')[2]}`}
+                        width="100%"
+                        height="80"
+                        frameBorder="0"
+                        allow="encrypted-media"
+                        className="rounded-lg"
+                    ></iframe>
+                ))}
             </CardContent>
         </Card>
       )}
