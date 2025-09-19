@@ -28,7 +28,7 @@ export type PersonalizedRecommendationsInput = z.infer<
 const PersonalizedRecommendationsOutputSchema = z.object({
   recommendations: z
     .string()
-    .describe('Personalized recommendations for resources and exercises.'),
+    .describe('Personalized recommendations for resources and exercises, formatted as a bulleted list.'),
 });
 export type PersonalizedRecommendationsOutput = z.infer<
   typeof PersonalizedRecommendationsOutputSchema
@@ -54,6 +54,8 @@ const prompt = ai.definePrompt({
 
   Provide personalized recommendations for resources and exercises that may be helpful to the user.
   Consider resources like support groups, therapists, relaxation exercises, and journaling prompts.
+  
+  Format the response as a bulleted list (using markdown '*' for each point). Each recommendation should be a separate point.
 `,
 });
 
