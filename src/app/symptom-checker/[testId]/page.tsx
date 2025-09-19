@@ -12,8 +12,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 
-export default function SymptomTestPage({ params }: { params: { testId: string } }) {
-  const { testId } = params;
+export default function SymptomTestPage({ params: { testId } }: { params: { testId: string } }) {
 
   // Type assertion to allow string indexing
   const testData = (symptomCheckers as any)[testId];
