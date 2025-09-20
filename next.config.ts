@@ -33,6 +33,7 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',
+      executionTimeout: 120, // 2 minutes
     },
   },
 };

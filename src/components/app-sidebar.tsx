@@ -12,6 +12,7 @@ import {
   Camera,
   AlertTriangle,
   Zap,
+  Clapperboard,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -35,9 +36,10 @@ const links = [
     { href: '/symptom-checker', label: 'Self Checkup', icon: BrainCircuit },
     { href: '/recommendations', label: 'AI Coach', icon: Sparkles },
     { href: '/mood-detector', label: 'Mood Detector', icon: Camera },
-    { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
-    { href: '/quick-resources', label: 'Quick Resources', icon: Zap },
     { href: '/sound-therapy', label: 'Sound Therapy', icon: Headphones },
+    { href: '/project-media', label: 'Project Media', icon: Clapperboard },
+    { href: '/quick-resources', label: 'Quick Resources', icon: Zap },
+    { href: '/emergency-help', label: 'Emergency Help', icon: AlertTriangle },
 ];
 
 export function AppSidebar() {
